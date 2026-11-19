@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="150 145 200 135" role="img" aria-labelledby="title">
+  <title>Esclat</title>
+  <path
+    d="M164 182 178 181 168 169 195 177 187 160 211 171 211 149 242 169 266 149 267 171 292 160 284 177 317 168 306 182 333 176 314 190 276 191 240 191 203 190 164 182Z"
+    fill="#f7b21e"
+  />
+  <text
+    x="200"
+    y="265"
+    fill="#ff7a1a"
+    font-family="Arial Black, Arial, Helvetica, sans-serif"
+    font-size="74"
+    font-style="italic"
+    font-weight="900"
+    letter-spacing="-2"
+  >ESCLAT</text>
+</svg>

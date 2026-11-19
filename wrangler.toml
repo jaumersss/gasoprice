@@ -1,0 +1,8 @@
+name = "gasoprice"
+main = "src/index.js"
+compatibility_date = "2026-04-19"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+run_worker_first = ["/api/*"]

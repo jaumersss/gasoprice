@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gasolineras Cerca</title>
+    <meta
+      name="description"
+      content="Consulta gasolineras por municipio, marca o ubicación actual y encuentra opciones cercanas en España."
+    />
+    <meta name="theme-color" content="#db6c32" />
+    <meta name="theme-color" content="#12181d" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Gasolineras Cerca" />
+    <link rel="manifest" href="./manifest.webmanifest?v=20260420b" />
+    <link rel="icon" href="./icons/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="icon" href="./icons/icon-512.png" type="image/png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" sizes="180x180" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260420b" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-top">
+          <p class="eyebrow">Precios oficiales en España</p>
+        </div>
+        <div class="hero-heading">
+          <h1>Gasolina barata cerca</h1>
+          <button
+            id="themeToggleButton"
+            class="ghost-button theme-toggle"
+            type="button"
+            aria-pressed="false"
+            aria-label="Activar modo oscuro"
+            title="Cambiar tema"
+          >
+            <span class="theme-icon theme-icon-sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <circle cx="12" cy="12" r="4.5" />
+                <path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6M18.7 18.7l-1.6-1.6M6.9 6.9 5.3 5.3" />
+              </svg>
+            </span>
+            <span class="theme-icon theme-icon-moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M14.5 2.8a8.8 8.8 0 1 0 6.7 15.3A9.7 9.7 0 0 1 14.5 2.8Z" />
+              </svg>
+            </span>
+          </button>
+        </div>
+        <p class="hero-copy">
+          Filtra por municipio, gasolinera y combustible, amplía la búsqueda a
+          pueblos cercanos y refresca los datos cada pocos minutos.
+        </p>
+      </header>
+
+      <main class="dashboard">
+        <section class="panel controls-panel">
+          <div class="panel-header">
+            <h2>Tu búsqueda</h2>
+            <button id="refreshButton" class="ghost-button" type="button">
+              Actualizar ahora
+            </button>
+          </div>
+
+          <button id="filtersToggleButton" class="ghost-button filters-toggle" type="button" hidden>
+            <span>Filtros</span>
+            <span id="filtersSummary" class="filters-summary"></span>
+          </button>
+
+          <form id="filtersForm" class="filters-grid">
+            <label class="field">
+              <span>Municipio</span>
+              <input
+                id="municipioInput"
+                type="search"
+                placeholder="Ej. Madrid, Zaragoza, Sabadell"
+                list="municipiosList"
+                autocomplete="off"
+              />
+              <datalist id="municipiosList"></datalist>
+            </label>
+
+            <label class="field">
+              <span>Gasolinera</span>
+              <select id="brandSelect">
+                <option value="">Todas</option>
+                <option value="REPSOL">Repsol</option>
+                <option value="CEPSA">Cepsa</option>
+                <option value="BP">BP</option>
+                <option value="GALP">Galp</option>
+                <option value="SHELL">Shell</option>
+                <option value="PETRONOR">Petronor</option>
+                <option value="PLENOIL">Plenoil</option>
+                <option value="BALLENOIL">Ballenoil</option>
+                <option value="BONAREA">Bonarea</option>
+                <option value="ESCLATOIL">Esclatoil</option>
+                <option value="PETROPRIX">Petroprix</option>
+                <option value="Q8">Q8</option>
+                <option value="MOEVE">Moeve</option>
+              </select>
+            </label>
+
+            <div class="field fuel-field">
+              <span>Combustible</span>
+              <div class="fuel-picker">
+                <select id="fuelSelect"></select>
+                <button id="toggleMoreFuelsButton" class="ghost-button inline-button" type="button">
+                  Ver más
+                </button>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Orden</span>
+              <select id="sortSelect">
+                <option value="price-asc">Precio más bajo</option>
+                <option value="price-desc">Precio más alto</option>
+                <option value="distance-asc">Más cerca</option>
+                <option value="name-asc">Nombre A-Z</option>
+              </select>
+            </label>
+
+            <div class="field location-field">
+              <span>Ubicación</span>
+              <button id="useLocationButton" class="ghost-button" type="button">
+                Usar mi ubicación
+              </button>
+              <p id="locationHint" class="field-hint">
+                Si lo permites, te mostraré gasolineras cercanas a donde estés.
+              </p>
+            </div>
+
+            <label class="field checkbox-field">
+              <input id="nearbyCheckbox" type="checkbox" />
+              <span>Ampliar búsqueda por tiempo de conducción</span>
+            </label>
+
+            <label class="field slider-field" for="driveTimeRange">
+              <div class="slider-heading">
+                <span>Máximo en coche</span>
+                <strong id="driveTimeValue">20 min</strong>
+              </div>
+              <input
+                id="driveTimeRange"
+                class="range-input"
+                type="range"
+                min="5"
+                max="60"
+                step="5"
+                value="20"
+                aria-describedby="driveTimeValue"
+              />
+              <div class="range-scale" aria-hidden="true">
+                <span>5 min</span>
+                <span>60 min</span>
+              </div>
+              <p class="field-hint">
+                Ajusta cuántos minutos de conducción aproximada permites desde tu ubicación o desde el municipio elegido.
+              </p>
+            </label>
+
+            <label class="field checkbox-field">
+              <input id="openNowCheckbox" type="checkbox" />
+              <span>Intentar mostrar primero gasolineras con horario amplio</span>
+            </label>
+          </form>
+        </section>
+
+        <section class="panel results-panel">
+          <div class="panel-header">
+            <div>
+              <h2>Gasolineras</h2>
+              <p id="selectedFuelLabel" class="status-label">Combustible activo: Gasolina 95 E5</p>
+            </div>
+            <p id="resultsCount" class="results-count">0 resultados</p>
+          </div>
+          <div id="results" class="results-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="stationTemplate">
+      <article class="station-card">
+        <div class="station-top">
+          <div class="station-heading">
+            <img class="station-logo" alt="" loading="lazy" />
+            <div>
+              <p class="station-brand"></p>
+              <h3 class="station-name"></h3>
+            </div>
+          </div>
+          <div class="price-badge"></div>
+        </div>
+        <p class="station-address"></p>
+        <div class="station-meta">
+          <span class="distance-pill"></span>
+          <span class="schedule-pill"></span>
+          <span class="updated-pill"></span>
+        </div>
+        <details class="map-links">
+          <summary class="ghost-button map-toggle">Cómo llegar</summary>
+          <div class="map-links-menu">
+            <a class="map-link map-link-apple" target="_blank" rel="noreferrer">
+              Apple Maps
+            </a>
+            <a class="map-link map-link-google" target="_blank" rel="noreferrer">
+              Google Maps
+            </a>
+            <a class="map-link map-link-waze" target="_blank" rel="noreferrer">
+              Waze
+            </a>
+          </div>
+        </details>
+      </article>
+    </template>
+
+    <script type="module" src="./app.js?v=20260420b"></script>
+  </body>
+</html>
